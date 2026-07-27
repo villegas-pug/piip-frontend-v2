@@ -1,0 +1,57 @@
+<section class="page dashboard-page">
+  <h2 class="welcome">Buenos días, {{ repository.role() }}</h2>
+
+  <div class="metric-grid">
+    <article class="metric-card panel"><span class="metric-icon"><mat-icon>assignment</mat-icon></span><strong>4</strong><p>Acciones pendientes</p></article>
+    <article class="metric-card panel"><span class="metric-icon gold"><mat-icon>warning_amber</mat-icon></span><strong class="gold-text">2</strong><p>Alertas</p></article>
+    <article class="metric-card panel"><span class="metric-icon"><mat-icon>notifications_none</mat-icon></span><strong>8</strong><p>Notificaciones</p></article>
+  </div>
+
+  <div class="dashboard-grid">
+    <article class="panel work-panel">
+      <div class="panel-title"><h3>Bandeja de trabajo</h3></div>
+      <div class="work-head"><span>ID de iniciativa</span><span>Acción requerida</span><span>Prioridad</span><span>Asignado por</span><span>Fecha límite</span><span>Acción</span></div>
+      @for (item of repository.workItems; track item.code) {
+        <div class="work-row">
+          <strong class="code">{{ item.code }}</strong><span>{{ item.action }}</span><span class="priority" [class.high]="item.priority === 'Alta'">{{ item.priority }}</span><span>{{ item.assignedTo }}</span><span [class.overdue]="item.priority === 'Alta'">{{ item.dueDate }}</span><a class="secondary-button" [routerLink]="['/iniciativas', item.code, 'documentos']">Abrir <mat-icon>chevron_right</mat-icon></a>
+        </div>
+      }
+      <a class="text-button all-link" routerLink="/iniciativas">Ver todas las acciones pendientes <mat-icon>chevron_right</mat-icon></a>
+    </article>
+
+    <div class="side-column">
+      <article class="panel alerts-panel">
+        <div class="panel-title"><h3><b>2</b> Alertas</h3></div>
+        <div class="alert-row"><mat-icon>warning</mat-icon><p>La iniciativa I-012-2026 requiere atención antes de la próxima revisión.</p></div>
+        <div class="alert-row"><mat-icon>warning</mat-icon><p>El proyecto P-045-2025 mantiene una acción documental pendiente.</p></div>
+        <button class="text-button" type="button" (click)="showDemo('Listado de alertas abierto')">Ver todas las alertas <mat-icon>chevron_right</mat-icon></button>
+      </article>
+
+      <article class="panel notification-panel">
+        <div class="panel-title"><h3><b>8</b> Notificaciones</h3></div>
+        <div class="notification-row"><span><mat-icon>notifications_none</mat-icon></span><p>Se aprobó la iniciativa I-010-2026.<small>Hace 1 hora</small></p></div>
+        <button class="text-button" type="button" (click)="showDemo('Centro de notificaciones abierto')">Ver todas las notificaciones <mat-icon>chevron_right</mat-icon></button>
+      </article>
+    </div>
+
+    <article class="panel portfolio-panel">
+      <div class="panel-title"><h3>Resumen del portafolio</h3></div>
+      <div class="portfolio-metrics">
+        <div><span><mat-icon>description</mat-icon></span><strong>156</strong><p>Presentadas</p></div>
+        <div><span><mat-icon>check_circle_outline</mat-icon></span><strong>68</strong><p>Aprobadas</p></div>
+        <div><span class="gray"><mat-icon>inventory_2</mat-icon></span><strong class="gray-text">46</strong><p>Archivadas</p></div>
+        <div><span class="gold"><mat-icon>business_center</mat-icon></span><strong class="gold-text">42</strong><p>Proyectos en ejecución</p></div>
+      </div>
+      <p class="demo-note"><mat-icon>info_outline</mat-icon>Cifras de demostración para la validación de UX.</p>
+    </article>
+
+    <article class="panel chart-panel">
+      <div class="panel-title"><h3>Estado del portafolio</h3></div>
+      <div class="chart-row"><span>Presentadas</span><i><b style="width: 82%"></b></i><strong>156</strong></div>
+      <div class="chart-row"><span>Iniciativas aprobadas</span><i><b class="teal" style="width: 48%"></b></i><strong>68</strong></div>
+      <div class="chart-row"><span>Iniciativas archivadas</span><i><b class="gray" style="width: 31%"></b></i><strong>46</strong></div>
+      <div class="chart-row"><span>Proyectos en ejecución</span><i><b class="gold" style="width: 28%"></b></i><strong>42</strong></div>
+      <button class="text-button chart-link" type="button" (click)="showDemo('Detalle del portafolio abierto')">Ver detalle del estado <mat-icon>chevron_right</mat-icon></button>
+    </article>
+  </div>
+</section>

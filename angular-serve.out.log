@@ -1,0 +1,32 @@
+
+> piip-web2@0.0.0 start
+> ng serve --host 127.0.0.1 --port 4400
+
+❯ Building...
+✔ Building...
+Initial chunk files | Names                              |  Raw size
+styles.css          | styles                             |  17.18 kB | 
+main.js             | main                               |   4.06 kB | 
+chunk-VUJOFXKG.js   | -                                  | 938 bytes | 
+
+                    | Initial total                      |  22.18 kB
+
+Lazy chunk files    | Names                              |  Raw size
+chunk-E2WRF3SI.js   | preexisting-project-form-component |  78.52 kB | 
+chunk-SSKUBDFZ.js   | initiative-form-component          |  53.75 kB | 
+chunk-M3PPNZJN.js   | documents-component                |  41.03 kB | 
+chunk-5HBSP2NS.js   | projects-component                 |  38.69 kB | 
+chunk-TKV7UST6.js   | documents-inbox-component          |  34.99 kB | 
+chunk-CN3RMHUT.js   | dashboard-component                |  34.02 kB | 
+chunk-R5AYSYBV.js   | initiatives-component              |  33.38 kB | 
+chunk-OBTYRRFD.js   | audit-component                    |  30.53 kB | 
+chunk-OVDW2U2H.js   | app-shell-component                |  27.42 kB | 
+chunk-XI2VGIAG.js   | -                                  |  17.95 kB | 
+chunk-6SESMI54.js   | -                                  | 971 bytes | 
+
+Application bundle generation complete. [1.717 seconds] - 2026-07-27T12:06:24.604Z
+
+Watch mode enabled. Watching for file changes...
+NOTE: Raw file sizes do not reflect development server per-request transformations.
+  [32m➜[39m  [1mLocal[22m:   [36mhttp://127.0.0.1:[1m4400[22m/[39m
+[2m[32m  ➜[39m[22m[2m  press [22m[1mh + enter[22m[2m to show help[22m

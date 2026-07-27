@@ -1,0 +1,44 @@
+<section class="page audit-page">
+  @if (repository.role() === 'Consulta externa') {
+    <article class="panel forbidden"><mat-icon>lock</mat-icon><h2>Acceso restringido</h2><p>La auditoría está disponible únicamente para el perfil Administrador PIIP.</p></article>
+  } @else {
+    <form class="audit-filters" [formGroup]="filters">
+      <label class="field"><span>Expediente</span><select formControlName="record"><option>I-024-2026</option><option>I-019-2026</option></select></label>
+      <label class="field"><span>Tipo de evento</span><select formControlName="eventType"><option>Todos</option><option>Creación</option><option>Documento</option><option>Transición</option></select></label>
+      <label class="field"><span>Usuario</span><select formControlName="user"><option>Todos</option><option>Administrador PIIP</option></select></label>
+      <label class="field"><span>Fecha desde</span><input type="date" formControlName="from" /></label>
+      <label class="field"><span>Fecha hasta</span><input type="date" formControlName="to" /></label>
+      <button class="secondary-button" type="button" (click)="resetFilters()">Limpiar filtros</button>
+    </form>
+
+    <div class="audit-grid">
+      <article class="panel history-panel">
+        <h2>Historial de eventos de expedientes</h2>
+        <div class="audit-head"><span></span><span>Fecha y hora</span><span>Evento</span><span>Usuario</span><span>Observación</span><span>Documento</span><span>Acción</span></div>
+        <div class="timeline">
+          @for (event of repository.auditEvents(); track event.timestamp + event.event) {
+            <div class="audit-row">
+              <span class="event-icon"><mat-icon>{{ event.icon }}</mat-icon></span>
+              <span class="timestamp">{{ event.timestamp }}</span>
+              <strong>{{ event.event }}</strong>
+              <span>{{ event.user }}<small>{{ event.email }}</small></span>
+              <span>{{ event.observation }}</span>
+              <span>@if (event.documentName) {<button class="document-link" type="button" (click)="showDemo()"><mat-icon>description</mat-icon>{{ event.documentName }}</button>} @else {—}</span>
+              <button class="secondary-button" type="button" (click)="showDemo()">Ver detalle <mat-icon>chevron_right</mat-icon></button>
+            </div>
+          }
+        </div>
+        <footer><span>Mostrando {{ repository.auditEvents().length }} de {{ repository.auditEvents().length }} eventos</span><div><button disabled>‹</button><button class="active">1</button><button disabled>›</button></div></footer>
+      </article>
+
+      <aside class="panel integrity-panel">
+        <h2><mat-icon>verified_user</mat-icon>Integridad del expediente</h2>
+        <div class="verification"><span>Estado de visualización</span><strong><mat-icon>visibility</mat-icon>Demo</strong></div>
+        <p>Este panel anticipa los controles que deberá entregar el backend. No representa una verificación técnica real.</p>
+        <h3>Información visible</h3>
+        <ul><li><mat-icon>check_circle_outline</mat-icon>Secuencia cronológica</li><li><mat-icon>check_circle_outline</mat-icon>Documentos asociados</li><li><mat-icon>check_circle_outline</mat-icon>Usuario responsable</li><li><mat-icon>check_circle_outline</mat-icon>Observación del evento</li></ul>
+        <div class="demo-callout"><mat-icon>info_outline</mat-icon>Firmas, integridad de archivos y detección de alteraciones requieren servicios de backend.</div>
+      </aside>
+    </div>
+  }
+</section>
