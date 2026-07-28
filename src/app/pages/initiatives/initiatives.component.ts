@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/c
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatMenuModule } from '@angular/material/menu';
 import { RouterLink } from '@angular/router';
 import { PIIP_CATALOGS, RESPONSIBLE_UNITS } from '../../core/piip.catalogs';
 import { PiipMockRepository } from '../../core/piip-mock.repository';
@@ -10,14 +10,13 @@ import { PiipStatus } from '../../core/piip.models';
 
 @Component({
   selector: 'app-initiatives',
-  imports: [ReactiveFormsModule, MatIconModule, RouterLink],
+  imports: [ReactiveFormsModule, MatIconModule, MatMenuModule, RouterLink],
   templateUrl: './initiatives.component.html',
   styleUrl: './initiatives.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InitiativesComponent {
   private readonly formBuilder = inject(FormBuilder);
-  private readonly snackBar = inject(MatSnackBar);
   readonly repository = inject(PiipMockRepository);
   readonly catalogs = PIIP_CATALOGS;
   readonly units = RESPONSIBLE_UNITS;
@@ -27,7 +26,7 @@ export class InitiativesComponent {
   readonly filteredInitiatives = computed(() => {
     const value = this.filterValue();
     const search = (value.search ?? '').trim().toLocaleLowerCase();
-    return this.repository.initiatives.filter((initiative) =>
+    return this.repository.initiatives().filter((initiative) =>
       (!search || `${initiative.code} ${initiative.name}`.toLocaleLowerCase().includes(search)) &&
       (value.status === 'Todos' || initiative.status === value.status) &&
       (value.source === 'Todos' || initiative.source === value.source) &&
@@ -42,10 +41,6 @@ export class InitiativesComponent {
 
   resetFilters(): void {
     this.filters.reset({ search: '', status: 'Todos', source: 'Todos', unit: 'Todas', date: '' });
-  }
-
-  showDemo(): void {
-    this.snackBar.open('Menú de acciones del expediente (demostración).', 'Cerrar', { duration: 2500 });
   }
 
   statusClass(status: PiipStatus): string {

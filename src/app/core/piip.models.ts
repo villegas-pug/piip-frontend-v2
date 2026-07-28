@@ -90,6 +90,36 @@ export interface PreexistingProjectInput {
   finalClosureReport: string;
 }
 
+export interface InitiativeDecisionInput {
+  initiativeCode: string;
+  targetStatus: 'Iniciativa aprobada';
+  observation: string;
+}
+
+export interface DerivedProjectInput {
+  initiativeCode: string;
+  code: string;
+  startDate: string;
+  name: string;
+  solutionType: PiipPortfolioRecord['solutionType'];
+  source: string;
+  responsible: string;
+  responsibleUnits: string;
+  peiObjective: string;
+  poiActivity: string;
+  description: string;
+  keyResults: string;
+  note: string;
+  digitalComponent: PiipPortfolioRecord['digitalComponent'];
+}
+
+export interface InitiativeDetail {
+  initiative: InitiativeRecord;
+  portfolioRecord: PiipPortfolioRecord;
+  dossier?: DocumentDossier;
+  derivedProject?: ProjectRecord;
+}
+
 export interface DocumentRecord {
   name: string;
   required: boolean;
@@ -127,6 +157,7 @@ export interface DocumentDossierSummary {
 }
 
 export interface AuditEvent {
+  recordCode?: string;
   timestamp: string;
   event: string;
   user: string;

@@ -1,9 +1,12 @@
 import { Injectable, signal } from '@angular/core';
 import {
   AuditEvent,
+  DerivedProjectInput,
   DocumentDossier,
   DocumentDossierSummary,
   DocumentRecord,
+  InitiativeDecisionInput,
+  InitiativeDetail,
   InitiativeRecord,
   PiipPortfolioRecord,
   PreexistingProjectInput,
@@ -31,6 +34,30 @@ export class PiipMockRepository {
       finalProductApprovalDocument: '', projectManagementDocumentation: '', finalClosureReport: '',
     },
     {
+      recordType: 'Iniciativa', code: 'I-019-2026', originCode: 'NA',
+      name: 'Fortalecimiento de capacidades para la gestión de la innovación agraria',
+      solutionType: 'Solución por definir', source: 'Innovación abierta', startDate: '2026-05-06',
+      responsible: 'Carlos Rojas', peiObjective: 'Fortalecer la gestión institucional de la innovación agraria',
+      poiActivity: 'Desarrollo de capacidades institucionales', responsibleUnits: 'DIPNA',
+      description: 'Fortalecimiento de capacidades para gestionar iniciativas de innovación agraria.',
+      keyResults: '', note: '', status: 'Iniciativa aprobada', finalProductType: 'NA', digitalComponent: 'No',
+      closingDate: '', technicalOpinionReport: 'Informe_Opinion_I-019-2026.pdf',
+      formalApprovalDecision: 'Decision_I-019-2026.pdf', finalProductApprovalDocument: '',
+      projectManagementDocumentation: '', finalClosureReport: '',
+    },
+    {
+      recordType: 'Iniciativa', code: 'I-014-2026', originCode: 'NA',
+      name: 'Adquisición de equipamiento para la estación experimental agraria Santa Ana',
+      solutionType: 'Solución potencial o adaptable', source: 'Propuesta de jefatura o directivos',
+      startDate: '2026-05-02', responsible: 'Lucía Fernández',
+      peiObjective: 'Objetivo PEI declarado en el registro', poiActivity: 'Actividad POI declarada en el registro',
+      responsibleUnits: 'DGA', description: 'Necesidad de equipamiento para la estación experimental agraria.',
+      keyResults: '', note: 'Iniciativa archivada con comentarios.', status: 'Iniciativa archivada',
+      finalProductType: 'NA', digitalComponent: 'No', closingDate: '', technicalOpinionReport: '',
+      formalApprovalDecision: '', finalProductApprovalDocument: '', projectManagementDocumentation: '',
+      finalClosureReport: '',
+    },
+    {
       recordType: 'Proyecto', code: 'P-005-2026', originCode: 'NA',
       name: 'Red de Estaciones Agrometeorológicas', solutionType: 'No aplica', source: 'Otros',
       startDate: '2026-02-12', responsible: 'Carmen Rojas', peiObjective: 'Objetivo PEI declarado en el registro',
@@ -47,7 +74,7 @@ export class PiipMockRepository {
     { code: 'I-019-2026', action: 'Revisar informe técnico', priority: 'Media', assignedTo: 'DIPNA', dueDate: '30/05/2026' },
   ];
 
-  readonly initiatives: InitiativeRecord[] = [
+  readonly initiatives = signal<InitiativeRecord[]>([
     {
       code: 'I-024-2026',
       name: 'Mejoramiento del servicio de riego tecnificado en el valle de Ica',
@@ -78,10 +105,10 @@ export class PiipMockRepository {
       status: 'Iniciativa archivada',
       updatedAt: '15/05/2026 09:30',
     },
-  ];
+  ]);
 
   readonly projects = signal<ProjectRecord[]>([
-    { code: 'P-003-2026', name: 'Plataforma de Innovación Agraria Sostenible', originCode: 'I-014-2026', originMode: 'DERIVED_FROM_INITIATIVE', unit: 'DIPNA', responsible: 'María Quintana', status: 'Proyecto en ejecución', digitalComponent: 'Si' },
+    { code: 'P-003-2026', name: 'Plataforma de Innovación Agraria Sostenible', originCode: 'I-012-2026', originMode: 'DERIVED_FROM_INITIATIVE', unit: 'DIPNA', responsible: 'María Quintana', status: 'Proyecto en ejecución', digitalComponent: 'Si' },
     { code: 'P-004-2026', name: 'Sistema de Información de Riego', originCode: 'I-010-2026', originMode: 'DERIVED_FROM_INITIATIVE', unit: 'DGA', responsible: 'Luis Calderón', status: 'Producto aprobado', digitalComponent: 'Si' },
     { code: 'P-005-2026', name: 'Red de Estaciones Agrometeorológicas', originCode: 'NA', originMode: 'PREEXISTING', unit: 'DCLIMA', responsible: 'Carmen Rojas', status: 'Proyecto en ejecución', digitalComponent: 'Si' },
     { code: 'P-006-2026', name: 'Capacitación Digital para Productores', originCode: 'I-008-2026', originMode: 'DERIVED_FROM_INITIATIVE', unit: 'DIPNA', responsible: 'José Vílchez', status: 'Suspendido', digitalComponent: 'No' },
@@ -167,10 +194,10 @@ export class PiipMockRepository {
   ]);
 
   readonly auditEvents = signal<AuditEvent[]>([
-    { timestamp: '20/05/2026\n09:31:12', event: 'Iniciativa creada', user: 'Administrador PIIP', email: 'admin.piip@midagri.gob.pe', observation: 'Se inició un borrador local del registro.', icon: 'add' },
-    { timestamp: '20/05/2026\n09:45:27', event: 'Ficha inicial cargada', user: 'Administrador PIIP', email: 'admin.piip@midagri.gob.pe', observation: 'Se cargó la ficha inicial de la iniciativa.', documentName: 'Ficha_inicial_I-024-2026.pdf', icon: 'description' },
-    { timestamp: '20/05/2026\n10:02:44', event: 'Estado cambiado a Presentado', user: 'Administrador PIIP', email: 'admin.piip@midagri.gob.pe', observation: 'La iniciativa fue presentada para evaluación.', icon: 'check' },
-    { timestamp: '20/05/2026\n10:28:19', event: 'Informe técnico cargado', user: 'Administrador PIIP', email: 'admin.piip@midagri.gob.pe', observation: 'Se cargó el informe técnico de evaluación.', documentName: 'Informe_tecnico_I-024-2026.pdf', icon: 'cloud_upload' },
+    { recordCode: 'I-024-2026', timestamp: '20/05/2026\n09:31:12', event: 'Iniciativa creada', user: 'Administrador PIIP', email: 'admin.piip@midagri.gob.pe', observation: 'Se inició un borrador local del registro.', icon: 'add' },
+    { recordCode: 'I-024-2026', timestamp: '20/05/2026\n09:45:27', event: 'Ficha inicial cargada', user: 'Administrador PIIP', email: 'admin.piip@midagri.gob.pe', observation: 'Se cargó la ficha inicial de la iniciativa.', documentName: 'Ficha_inicial_I-024-2026.pdf', icon: 'description' },
+    { recordCode: 'I-024-2026', timestamp: '20/05/2026\n10:02:44', event: 'Estado cambiado a Presentado', user: 'Administrador PIIP', email: 'admin.piip@midagri.gob.pe', observation: 'La iniciativa fue presentada para evaluación.', icon: 'check' },
+    { recordCode: 'I-024-2026', timestamp: '20/05/2026\n10:28:19', event: 'Informe técnico cargado', user: 'Administrador PIIP', email: 'admin.piip@midagri.gob.pe', observation: 'Se cargó el informe técnico de evaluación.', documentName: 'Informe_tecnico_I-024-2026.pdf', icon: 'cloud_upload' },
   ]);
 
   toggleRole(): void {
@@ -185,6 +212,42 @@ export class PiipMockRepository {
     return this.documentDossiers().map(summarizeDocumentDossier);
   }
 
+  getInitiativeDetail(code: string): InitiativeDetail | undefined {
+    const initiative = this.initiatives().find((record) => record.code === code);
+    const portfolioRecord = this.portfolioRecords().find(
+      (record) => record.recordType === 'Iniciativa' && record.code === code,
+    );
+    if (!initiative || !portfolioRecord) return undefined;
+
+    return {
+      initiative,
+      portfolioRecord,
+      dossier: this.getDocumentDossier('Iniciativa', code),
+      derivedProject: this.getProjectByOrigin(code),
+    };
+  }
+
+  getProjectByOrigin(initiativeCode: string): ProjectRecord | undefined {
+    return this.projects().find(
+      (project) => project.originMode === 'DERIVED_FROM_INITIATIVE' && project.originCode === initiativeCode,
+    );
+  }
+
+  getInitiativesEligibleForProject(): InitiativeRecord[] {
+    return this.initiatives().filter(
+      (initiative) => initiative.status === 'Iniciativa aprobada' && !this.getProjectByOrigin(initiative.code),
+    );
+  }
+
+  getNextProjectCode(initiativeCode: string): string {
+    const year = initiativeCode.match(/(\d{4})$/)?.[1] ?? String(new Date().getFullYear());
+    const nextSequence = this.projects().reduce((maximum, project) => {
+      const match = project.code.match(/^P-(\d+)-\d{4}$/);
+      return Math.max(maximum, match ? Number(match[1]) : 0);
+    }, 0) + 1;
+    return `P-${String(nextSequence).padStart(3, '0')}-${year}`;
+  }
+
   saveDraft(value: unknown): void {
     localStorage.setItem('piip-web2-initiative-draft', JSON.stringify(value));
   }
@@ -193,10 +256,100 @@ export class PiipMockRepository {
     localStorage.setItem('piip-web2-preexisting-project-draft', JSON.stringify(value));
   }
 
-  registerPreexistingProject(input: PreexistingProjectInput): void {
-    if (this.role() !== 'Administrador PIIP') {
-      throw new Error('El perfil Consulta externa no puede registrar proyectos.');
+  saveDerivedProjectDraft(value: unknown): void {
+    localStorage.setItem('piip-web2-derived-project-draft', JSON.stringify(value));
+  }
+
+  approveInitiative(input: InitiativeDecisionInput): void {
+    this.assertAdministrator('El perfil Consulta externa no puede aprobar iniciativas.');
+    const detail = this.getInitiativeDetail(input.initiativeCode);
+    if (!detail) throw new Error('La iniciativa indicada no existe.');
+    if (detail.initiative.status !== 'Presentado') {
+      throw new Error('Solo una iniciativa en estado Presentado puede aprobarse.');
     }
+
+    const now = new Date();
+    const updatedAt = formatDateTime(now);
+    this.initiatives.update((initiatives) => initiatives.map((initiative) =>
+      initiative.code === input.initiativeCode
+        ? { ...initiative, status: 'Iniciativa aprobada', updatedAt }
+        : initiative,
+    ));
+    this.portfolioRecords.update((records) => records.map((record) =>
+      record.recordType === 'Iniciativa' && record.code === input.initiativeCode
+        ? { ...record, status: 'Iniciativa aprobada' }
+        : record,
+    ));
+    this.documentDossiers.update((dossiers) => dossiers.map((dossier) =>
+      dossier.recordType === 'Iniciativa' && dossier.code === input.initiativeCode
+        ? { ...dossier, status: 'Iniciativa aprobada', lastActivity: updatedAt }
+        : dossier,
+    ));
+    this.auditEvents.update((events) => [
+      {
+        recordCode: input.initiativeCode,
+        timestamp: formatAuditTimestamp(now),
+        event: 'Iniciativa aprobada',
+        user: 'Administrador PIIP',
+        email: 'admin.piip@midagri.gob.pe',
+        observation: input.observation.trim() || `${input.initiativeCode} cambió de Presentado a Iniciativa aprobada.`,
+        icon: 'verified',
+      },
+      ...events,
+    ]);
+  }
+
+  registerDerivedProject(input: DerivedProjectInput): void {
+    this.assertAdministrator('El perfil Consulta externa no puede registrar proyectos.');
+    const detail = this.getInitiativeDetail(input.initiativeCode);
+    if (!detail) throw new Error('La iniciativa de origen no existe.');
+    if (detail.initiative.status !== 'Iniciativa aprobada') {
+      throw new Error('El proyecto requiere una iniciativa en estado Iniciativa aprobada.');
+    }
+    if (this.getProjectByOrigin(input.initiativeCode)) {
+      throw new Error('La iniciativa ya tiene un proyecto derivado.');
+    }
+    if (!input.startDate) throw new Error('La fecha de inicio del proyecto es obligatoria.');
+    if (this.projects().some((project) => project.code === input.code)) {
+      throw new Error('El código de proyecto ya se encuentra registrado.');
+    }
+
+    const originCode = resolveProjectOriginCode({ mode: 'DERIVED_FROM_INITIATIVE', initiativeCode: input.initiativeCode });
+    const portfolioRecord: PiipPortfolioRecord = {
+      recordType: 'Proyecto', code: input.code, originCode, name: input.name,
+      solutionType: input.solutionType, source: input.source, startDate: input.startDate,
+      responsible: input.responsible, peiObjective: input.peiObjective, poiActivity: input.poiActivity,
+      responsibleUnits: input.responsibleUnits, description: input.description, keyResults: input.keyResults,
+      note: input.note, status: 'Proyecto en ejecución', finalProductType: 'NA',
+      digitalComponent: input.digitalComponent, closingDate: '', technicalOpinionReport: '',
+      formalApprovalDecision: '', finalProductApprovalDocument: '', projectManagementDocumentation: '',
+      finalClosureReport: '',
+    };
+    const project: ProjectRecord = {
+      code: input.code, name: input.name, originCode, originMode: 'DERIVED_FROM_INITIATIVE',
+      unit: input.responsibleUnits, responsible: input.responsible, status: 'Proyecto en ejecución',
+      digitalComponent: input.digitalComponent,
+    };
+
+    this.portfolioRecords.update((records) => [portfolioRecord, ...records]);
+    this.projects.update((projects) => [project, ...projects]);
+    this.documentDossiers.update((dossiers) => [createDerivedProjectDocumentDossier(input), ...dossiers]);
+    this.auditEvents.update((events) => [
+      {
+        recordCode: input.code,
+        timestamp: formatAuditTimestamp(new Date()),
+        event: 'Proyecto derivado registrado',
+        user: 'Administrador PIIP',
+        email: 'admin.piip@midagri.gob.pe',
+        observation: `${input.code} se creó a partir de ${input.initiativeCode}.`,
+        icon: 'account_tree',
+      },
+      ...events,
+    ]);
+  }
+
+  registerPreexistingProject(input: PreexistingProjectInput): void {
+    this.assertAdministrator('El perfil Consulta externa no puede registrar proyectos.');
 
     const originCode = resolveProjectOriginCode({ mode: 'PREEXISTING', initiativeCode: 'NA' });
     const portfolioRecord: PiipPortfolioRecord = {
@@ -242,7 +395,8 @@ export class PiipMockRepository {
     this.documentDossiers.update((dossiers) => [createPreexistingDocumentDossier(input), ...dossiers]);
     this.auditEvents.update((events) => [
       {
-        timestamp: new Intl.DateTimeFormat('es-PE', { dateStyle: 'short', timeStyle: 'medium' }).format(new Date()).replace(', ', '\n'),
+        recordCode: input.code,
+        timestamp: formatAuditTimestamp(new Date()),
         event: 'Proyecto preexistente registrado',
         user: 'Administrador PIIP',
         email: 'admin.piip@midagri.gob.pe',
@@ -251,6 +405,10 @@ export class PiipMockRepository {
       },
       ...events,
     ]);
+  }
+
+  private assertAdministrator(message: string): void {
+    if (this.role() !== 'Administrador PIIP') throw new Error(message);
   }
 }
 
@@ -303,6 +461,28 @@ function createPreexistingDocumentDossier(input: PreexistingProjectInput): Docum
       ] },
     ],
   };
+}
+
+function createDerivedProjectDocumentDossier(input: DerivedProjectInput): DocumentDossier {
+  return {
+    recordType: 'Proyecto', code: input.code, name: input.name, unit: input.responsibleUnits,
+    status: 'Proyecto en ejecución', lastActivity: formatDateTime(new Date()),
+    stages: [
+      { title: 'Documentos del proyecto', records: [
+        { name: 'Documento formal de aprobación de producto final', required: false, filename: null, version: null, uploadedAt: null, state: 'Pendiente' },
+        { name: 'Documentación de la gestión del proyecto', required: false, filename: null, version: null, uploadedAt: null, state: 'Pendiente' },
+        { name: 'Informe final de cierre', required: false, filename: null, version: null, uploadedAt: null, state: 'Pendiente' },
+      ] },
+    ],
+  };
+}
+
+function formatDateTime(date: Date): string {
+  return new Intl.DateTimeFormat('es-PE', { dateStyle: 'short', timeStyle: 'short' }).format(date);
+}
+
+function formatAuditTimestamp(date: Date): string {
+  return new Intl.DateTimeFormat('es-PE', { dateStyle: 'short', timeStyle: 'medium' }).format(date).replace(', ', '\n');
 }
 
 export function resolveProjectOriginCode(origin: ProjectOrigin): string {

@@ -61,3 +61,12 @@
   .documents-panel { overflow-x: auto; }
   .document-stage { min-width: 860px; }
 }
+.origin-document-banner { display: flex; align-items: center; gap: 14px; margin: -6px 0 18px; padding: 14px 16px; border: 1px solid #ceded3; border-radius: 6px; color: var(--piip-green-800); background: var(--piip-mint-soft); }
+.origin-document-banner > mat-icon { width: 34px; height: 34px; font-size: 34px; }
+.origin-document-banner div { display: grid; flex: 1; gap: 2px; }
+.origin-document-banner span { color: #68756e; font-size: 13px; }
+
+@media (max-width: 760px) {
+  .origin-document-banner { align-items: flex-start; flex-wrap: wrap; }
+  .origin-document-banner .secondary-button { width: 100%; }
+}

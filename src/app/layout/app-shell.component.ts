@@ -39,6 +39,7 @@ export class AppShellComponent {
   readonly pageTitle = computed(() => {
     const url = this.currentUrl();
     if (url.includes('/iniciativas/nueva')) return 'Nueva iniciativa';
+    if (url.includes('/proyectos/nuevo/derivado/')) return 'Registrar proyecto derivado';
     if (url.includes('/proyectos/nuevo/preexistente')) return 'Registrar proyecto preexistente';
     if (url.includes('/documentos')) return 'Documentos';
     if (url.startsWith('/iniciativas')) return 'Iniciativas';

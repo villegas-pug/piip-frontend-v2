@@ -32,7 +32,28 @@
                 <td>{{ initiative.unit }}</td>
                 <td><span class="status" [class]="statusClass(initiative.status)">{{ initiative.status }}</span></td>
                 <td>{{ initiative.updatedAt }}</td>
-                <td><span class="row-actions"><a class="secondary-button" [routerLink]="['/iniciativas', initiative.code, 'documentos']">Ver detalle <mat-icon>chevron_right</mat-icon></a><button class="icon-action" type="button" (click)="showDemo()"><mat-icon>more_vert</mat-icon></button></span></td>
+                <td>
+                  <span class="row-actions">
+                    <a class="secondary-button" [routerLink]="['/iniciativas', initiative.code]">Ver detalle <mat-icon>chevron_right</mat-icon></a>
+                    <button class="icon-action" type="button" [matMenuTriggerFor]="initiativeMenu" [attr.aria-label]="'Acciones de ' + initiative.code"><mat-icon>more_vert</mat-icon></button>
+                    <mat-menu #initiativeMenu="matMenu">
+                      <a mat-menu-item [routerLink]="['/iniciativas', initiative.code, 'documentos']"><mat-icon>description</mat-icon>Ver documentos</a>
+                      @if (repository.role() === 'Administrador PIIP' && initiative.status === 'Presentado') {
+                        <a mat-menu-item [routerLink]="['/iniciativas', initiative.code]" [queryParams]="{ action: 'approve' }"><mat-icon>verified</mat-icon>Registrar aprobación</a>
+                      }
+                      @if (repository.role() === 'Administrador PIIP' && initiative.status === 'Iniciativa aprobada') {
+                        @if (repository.getProjectByOrigin(initiative.code); as project) {
+                          <a mat-menu-item [routerLink]="['/proyectos', project.code, 'documentos']"><mat-icon>account_tree</mat-icon>Ver proyecto derivado</a>
+                        } @else {
+                          <a mat-menu-item [routerLink]="['/proyectos/nuevo/derivado', initiative.code]"><mat-icon>account_tree</mat-icon>Crear proyecto</a>
+                        }
+                      }
+                      @if (repository.role() === 'Administrador PIIP') {
+                        <a mat-menu-item routerLink="/auditoria" [queryParams]="{ record: initiative.code }"><mat-icon>history</mat-icon>Ver auditoría</a>
+                      }
+                    </mat-menu>
+                  </span>
+                </td>
               </tr>
             } @empty { <tr><td colspan="8" class="empty-state">No existen iniciativas que coincidan con los filtros.</td></tr> }
           </tbody>

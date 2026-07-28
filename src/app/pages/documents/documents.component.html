@@ -3,6 +3,12 @@
     <nav class="breadcrumbs" aria-label="Ruta de navegación"><a routerLink="/documentos">Documentos</a><mat-icon>chevron_right</mat-icon><a [routerLink]="moduleRoute()">{{ moduleLabel() }}</a><mat-icon>chevron_right</mat-icon><span>{{ dossier.code }}</span></nav>
     <div class="page-heading"><div><h2>Documentos del expediente</h2><p>{{ dossier.code }} · {{ dossier.name }}</p></div>@if (repository.role() === 'Administrador PIIP') {<button class="primary-button gold" type="button" (click)="showDemo('Selector de documento abierto')"><mat-icon>add</mat-icon>Cargar documento</button>}</div>
 
+    @if (project(); as project) {
+      @if (project.originMode === 'DERIVED_FROM_INITIATIVE') {
+        <div class="origin-document-banner"><mat-icon>account_tree</mat-icon><div><strong>Proyecto derivado de {{ project.originCode }}</strong><span>Los documentos de evaluación y decisión permanecen en el expediente de la iniciativa.</span></div><a class="secondary-button" [routerLink]="['/iniciativas', project.originCode, 'documentos']">Consultar documentos de origen</a></div>
+      }
+    }
+
     <div class="documents-grid">
       <article class="panel documents-panel">
         @for (stage of dossier.stages; track stage.title) {

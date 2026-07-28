@@ -30,6 +30,10 @@ Rutas principales: `/inicio`, `/iniciativas`, `/iniciativas/nueva`, `/proyectos`
 
 La bandeja global `/documentos` abre los expedientes mediante rutas contextuales: `/iniciativas/:code/documentos` y `/proyectos/:code/documentos`.
 
+El detalle `/iniciativas/:code` permite consultar la ficha, registrar la aprobación `Presentado → Iniciativa aprobada` y abrir `/proyectos/nuevo/derivado/:initiativeCode`. La aprobación no crea automáticamente el proyecto: habilita un formulario precargado y una confirmación independiente.
+
+La demostración conserva únicamente los perfiles `Administrador PIIP` y `Consulta externa`. Los documentos pendientes generan una advertencia informativa, pero no bloquean la aprobación.
+
 El alta directa de `/proyectos/nuevo/preexistente` se limita a proyectos que ya se encontraban en ejecución sin iniciativa formal de origen. Aplica `NA` al código de origen, `No aplica` al tipo de solución y `Proyecto en ejecución` como estado oficial.
 
 ## Verificación

@@ -29,6 +29,10 @@ export class DocumentsComponent {
   });
   readonly moduleRoute = computed(() => this.recordType() === 'Iniciativa' ? '/iniciativas' : '/proyectos');
   readonly moduleLabel = computed(() => this.recordType() === 'Iniciativa' ? 'Iniciativas' : 'Proyectos');
+  readonly project = computed(() => this.recordType() === 'Proyecto'
+    ? this.repository.projects().find((project) => project.code === this.code())
+    : undefined,
+  );
   readonly progress = computed(() => {
     const summary = this.summary();
     if (!summary) return 0;
